@@ -1,33 +1,36 @@
 import prompts from 'prompts'
-import { $ } from 'execa'
 import picocolors from 'picocolors'
-import { repoList } from './const'
-import { getRepoName, resolveRepoUrl } from './utils'
+import { type RepoConfig, repoChoices } from './const'
+import { handleClone } from './git'
 
 // eslint-disable-next-line no-console
 const log = console.log
 
-export async function handleClone() {
+function getInitialProjectName(config: RepoConfig) {
+  return config.name
+}
+
+export async function showClonePrompts() {
   const response = await prompts([
     {
       type: 'select',
-      name: 'project',
+      name: 'config',
       message: 'Choose a project to clone',
       validate: value => value.length > 0,
-      choices: repoList,
+      choices: repoChoices,
     },
     {
       type: 'text',
       name: 'projectName',
       message: 'project name',
-      initial: pre => getRepoName(pre),
+      initial: getInitialProjectName,
       validate: value => value.trim().length > 0,
     },
   ])
 
-  const { project, projectName } = response
+  const { config, projectName } = response
 
-  await $({ stdio: 'inherit' })`git clone --progress ${resolveRepoUrl(project)} ${projectName}`
+  handleClone(config, projectName)
 
   log('\n')
   log(picocolors.green(`  cd ${projectName} && pnpm install`))

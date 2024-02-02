@@ -1,19 +1,38 @@
 const yjhtry = 'https://github.com/yjhtry'
 
 export interface RepoConfig {
+  url: string
+  name: string
+  type: 'repo' | 'folder'
+  folder?: string
+}
+
+export interface RepoChoice {
   user: string
   title: string
-  path: string
-  value: string
+  value: RepoConfig
   description: string
 }
 
-export const repoList = [
+export const repoChoices = [
   {
-    user: yjhtry,
     title: 'vue h5 template',
-    path: '',
-    value: 'vue-h5-starter',
+    value: {
+      url: yjhtry,
+      type: 'repo',
+      folder: '',
+      name: 'vue-h5-starter',
+    },
     description: 'a vue h5 starter template',
   },
-] as RepoConfig[]
+  {
+    title: 'vue h5 template mock folder',
+    value: {
+      url: yjhtry,
+      type: 'folder',
+      folder: 'mock',
+      name: 'vue-h5-starter-mock',
+    },
+    description: 'a vue h5 starter template',
+  },
+] as RepoChoice[]

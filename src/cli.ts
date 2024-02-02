@@ -2,7 +2,7 @@ import process from 'node:process'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { version } from '../package.json'
-import { handleClone } from './clone'
+import { showClonePrompts } from './clone'
 
 // eslint-disable-next-line no-unused-expressions
 yargs(hideBin(process.argv))
@@ -11,7 +11,7 @@ yargs(hideBin(process.argv))
   .command(
     'clone',
     'clone select repository into a newly created directory',
-    handleClone,
+    showClonePrompts,
   )
   .showHelpOnFail(false)
   .alias('h', 'help')

@@ -1,4 +1,7 @@
-import { repoList } from './const'
+import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
+import { repoChoices } from './const'
 
 // get repository name from url
 export function getRepoName(url: string) {
@@ -9,8 +12,27 @@ export function getRepoName(url: string) {
   return url
 }
 
-export function resolveRepoUrl(value: string) {
-  const repo = repoList.find(repo => repo.value === value)
+export function resolveLocalPath(projectName: string) {
+  return path.join(process.cwd(), projectName)
+}
 
-  return `${repo?.user}/${repo?.value}.git`
+export async function mvFiles(from: string, to: string, deleteFrom = false) {
+  const files = fs.readdirSync(from)
+
+  const mvTasks = files.map((file) => {
+    return new Promise((resolve, reject) => {
+      const sourcePath = path.join(from, file)
+      const destinationPath = path.join(to, file)
+      return fs.rename(sourcePath, destinationPath, (err) => {
+        if (err)
+          reject(err)
+        else resolve(true)
+      })
+    })
+  })
+
+  await Promise.all(mvTasks)
+
+  if (deleteFrom)
+    fs.rmdirSync(from)
 }
