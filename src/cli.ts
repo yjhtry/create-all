@@ -2,7 +2,7 @@ import process from 'node:process'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { version } from '../package.json'
-import { showClonePrompts } from './clone'
+import { showClonePrompts } from './prompt'
 
 // eslint-disable-next-line no-unused-expressions
 yargs(hideBin(process.argv))

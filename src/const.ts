@@ -26,13 +26,13 @@ export const repoChoices = [
     description: 'a vue h5 starter template',
   },
   {
-    title: 'vue h5 template mock folder',
+    title: 'node cli starter template',
     value: {
       url: yjhtry,
       type: 'folder',
-      folder: 'mock',
-      name: 'vue-h5-starter-mock',
+      folder: 'node-cli-starter',
+      name: 'starter-templates',
     },
-    description: 'a vue h5 starter template',
+    description: 'a cli starter template based on node.js',
   },
 ] as RepoChoice[]
