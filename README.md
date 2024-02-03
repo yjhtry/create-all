@@ -1,4 +1,13 @@
-# Create front template
+# Choose a repository to clone by local configuration
+
+## Usage
+
+```bash
+npm install -g @yjhtry/create-all
+create-all clone
+```
+
+![demo](/screenshots/demo.gif)
 
 ## Config
 
