@@ -28,7 +28,7 @@ export async function showClonePrompts() {
       const res: { repoConfig: RepoConfig | RepoConfig[] } = await prompts({
         type: 'select',
         name: 'repoConfig',
-        message: '请选择一个节点：',
+        message: 'please select a repo to clone:',
         choices: getChoices(selectedNode),
       })
 
