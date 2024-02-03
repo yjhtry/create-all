@@ -1,5 +1,4 @@
 import { loadConfig } from 'unconfig'
-import prompts, { type PromptObject } from 'prompts'
 
 export interface RepoConfig {
   title: string
@@ -11,15 +10,26 @@ export interface RepoConfig {
 }
 
 export async function loadRepoConfig() {
-  const { config: { config } } = await loadConfig<{ config: RepoConfig[] }>({
-    sources: [
-      {
-        parser: 'json',
-        files: ['.create-all.json', 'create-all.json'],
-        extensions: ['json', ''],
-      },
-    ],
-  })
+  try {
+    const { config: { config }, sources } = await loadConfig<{ config: RepoConfig[] }>({
+      sources: [
+        {
+          parser: 'json',
+          files: ['.create-all.json', 'create-all.json'],
+          extensions: ['json', ''],
+        },
+      ],
+    })
 
-  return config
+    if (sources.length === 0)
+      throw new Error('no config file found')
+
+    if (!config)
+      throw new Error('invalid config')
+
+    return config
+  }
+  catch (error) {
+    throw new Error(`failed to load config: ${(error as any).message}`)
+  }
 }

@@ -31,6 +31,16 @@ function existsSync(fp: string) {
   }
 }
 
+export function checkFolderExists(folderPath: string) {
+  try {
+    const stats = fs.statSync(folderPath)
+    return stats.isDirectory()
+  }
+  catch (error) {
+    return false
+  }
+}
+
 export async function findUp(paths: string[], options: FindUpOptions = {}): Promise<string[]> {
   const {
     cwd = process.cwd(),
