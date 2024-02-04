@@ -1,10 +1,11 @@
+import path from 'node:path'
 import { promises as fsp } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { mvFiles, resolveProjectPath } from '../src/utils'
 
 describe('utils mod', () => {
   it('should word resolveLocalPath', () => {
-    expect(resolveProjectPath('test')).toEqual('/Users/yjh/oss/create-all/test')
+    expect(resolveProjectPath('test')).toEqual(path.join(process.cwd(), 'test'))
   })
 
   it('should word mvFiles', async () => {
