@@ -2,16 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 
-// get repository name from url
-export function getRepoName(url: string) {
-  const match = url.match(/\/([^/]+?)(?:\.git)?$/)
-  if (match)
-    return match[1]
-
-  return url
-}
-
-export function resolveLocalPath(projectName: string) {
+export function resolveProjectPath(projectName: string) {
   return path.join(process.cwd(), projectName)
 }
 

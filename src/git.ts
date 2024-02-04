@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { $ } from 'execa'
-import { mvFiles, resolveLocalPath } from './utils'
+import { mvFiles, resolveProjectPath } from './utils'
 import { type CloneConfig, type RepoConfig, validateCloneConfig } from './config'
 import { checkFolderExists } from './fs'
 
@@ -14,7 +14,7 @@ export function resolveRepoUrl(config: RepoConfig) {
 export async function handleClone(config: CloneConfig) {
   const { cloneType = 'repo', repoName, projectName } = await validateCloneConfig(config)
 
-  const projectPath = resolveLocalPath(projectName)
+  const projectPath = resolveProjectPath(projectName)
 
   if (checkFolderExists(projectPath))
     throw new Error(`project name: ${projectName} already exists.`)
@@ -36,7 +36,7 @@ export async function cloneRepo(url: string, projectName: string) {
 export async function cloneRepoFolder(url: string, projectName: string, folder: string) {
   await $({ stdio: 'inherit' })`git clone --no-checkout --depth=1 ${url} ${projectName}`
 
-  const repoPath = resolveLocalPath(projectName)
+  const repoPath = resolveProjectPath(projectName)
 
   await $({ cwd: repoPath })`git sparse-checkout set --no-cone ${folder}/*`
   await $({ cwd: repoPath })`git checkout`
@@ -46,5 +46,5 @@ export async function cloneRepoFolder(url: string, projectName: string, folder: 
 }
 
 export async function deleteRepoGit(projectName: string) {
-  await $`rm -rf ${path.join(resolveLocalPath(projectName), '.git')}`
+  await $`rm -rf ${path.join(resolveProjectPath(projectName), '.git')}`
 }
