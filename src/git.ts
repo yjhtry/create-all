@@ -1,8 +1,7 @@
-import process from 'node:process'
 import path from 'node:path'
 import { $ } from 'execa'
 import { mvFiles, resolveLocalPath } from './utils'
-import type { RepoConfig } from './config'
+import { type CloneConfig, type RepoConfig, validateCloneConfig } from './config'
 import { checkFolderExists } from './fs'
 
 export function resolveRepoUrl(config: RepoConfig) {
@@ -12,27 +11,12 @@ export function resolveRepoUrl(config: RepoConfig) {
     return `${config.url}/${config.repoName}.git`
 }
 
-export async function handleClone(config: RepoConfig, projectName: string) {
-  let { cloneType, repoName, url } = config
+export async function handleClone(config: CloneConfig) {
+  const { cloneType = 'repo', repoName, projectName } = await validateCloneConfig(config)
 
-  // todo transform and validate use yup
-  url = url.trim()
-  repoName = repoName.trim()
-  projectName = projectName.trim()
+  const projectPath = resolveLocalPath(projectName)
 
-  if (!url.startsWith('https://github.com/'))
-    throw new Error('invalid repo url, only support github.com repo url.')
-
-  if (!repoName.length)
-    throw new Error('invalid repo name.')
-
-  if (cloneType && !['repo', 'folder'].includes(cloneType))
-    throw new Error('invalid clone type.')
-
-  if (!projectName.length)
-    throw new Error('invalid project name.')
-
-  if (checkFolderExists(resolveLocalPath(projectName)))
+  if (checkFolderExists(projectPath))
     throw new Error(`project name: ${projectName} already exists.`)
 
   const repoUrl = resolveRepoUrl(config)

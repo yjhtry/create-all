@@ -41,7 +41,7 @@ export function checkFolderExists(folderPath: string) {
   }
 }
 
-export async function findUp(paths: string[], options: FindUpOptions = {}): Promise<string[]> {
+async function findUp(paths: string[], options: FindUpOptions = {}): Promise<string[]> {
   const {
     cwd = process.cwd(),
     stopAt = parse(cwd).root,
@@ -71,4 +71,18 @@ export async function findUp(paths: string[], options: FindUpOptions = {}): Prom
   }
 
   return files
+}
+
+async function readJson<T>(path: string) {
+  const content = await fsp.readFile(path, 'utf-8')
+  return JSON.parse(content) as T
+}
+
+export async function loadConfig<T>(filenames: string[]) {
+  const [filepath] = await findUp(filenames)
+
+  if (!filepath)
+    return undefined
+
+  return readJson<T>(filepath)
 }

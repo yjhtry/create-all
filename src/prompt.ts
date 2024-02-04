@@ -1,15 +1,19 @@
 import process from 'node:process'
 import prompts from 'prompts'
 import picocolors from 'picocolors'
-import { type RepoConfig, loadRepoConfig } from './config'
+import type { CloneConfig, RepoConfig } from './config'
 import { handleClone } from './git'
+import { loadConfig } from './fs'
 
 // eslint-disable-next-line no-console
 const log = console.log
 
 export async function showClonePrompts() {
   try {
-    const treeData = await loadRepoConfig()
+    const treeData = await loadConfig<RepoConfig[]>(['.create-all.json', 'create-all.json'])
+
+    if (!treeData)
+      throw new Error('no valid config file found')
 
     const getChoices = (data: RepoConfig[]) => {
       return data.map((item) => {
@@ -48,7 +52,7 @@ export async function showClonePrompts() {
       },
     ])
 
-    handleClone(selectedNode as RepoConfig, projectName)
+    handleClone({ ...selectedNode, projectName } as CloneConfig)
 
     log('\n')
     log(picocolors.green(`  cd ${projectName} && pnpm install`))

@@ -43,3 +43,7 @@ you can create a `create-all.json` or `.create-all.json` in your home directory,
   ]
 }
 ```
+
+## TODO
+
+- [ ] Support `create-all clone repo url` command
