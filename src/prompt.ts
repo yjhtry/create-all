@@ -34,7 +34,7 @@ export async function showClonePrompts() {
         name: 'repoConfig',
         message: 'please select a repo to clone:',
         choices: getChoices(selectedNode),
-      })
+      }, { onCancel })
 
       selectedNode = res.repoConfig
 
@@ -47,10 +47,10 @@ export async function showClonePrompts() {
         type: 'text',
         name: 'projectName',
         message: 'project name',
-        initial: (selectedNode as any).repoName,
+        initial: (selectedNode as any)?.repoName,
         validate: value => value.trim().length > 0,
       },
-    ])
+    ], { onCancel })
 
     handleClone({ ...selectedNode, projectName } as CloneConfig)
 
@@ -59,6 +59,10 @@ export async function showClonePrompts() {
   }
   catch (error) {
     console.error((error as any).message)
-    process.exit(1)
+    onCancel()
   }
+}
+
+function onCancel() {
+  process.exit(0)
 }
