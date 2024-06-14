@@ -2,7 +2,7 @@
   "name": "@yjhtry/create-all",
   "type": "module",
   "version": "0.0.12",
-  "packageManager": "pnpm@9.2.0",
+  "packageManager": "pnpm@9.3.0",
   "description": "create all kinds of project templates use one command",
   "license": "MIT",
   "homepage": "https://github.com/yjhtry/create-all#readme",
@@ -44,7 +44,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.21.0",
+    "@antfu/eslint-config": "^2.21.1",
     "@antfu/utils": "^0.7.8",
     "@types/cli-progress": "^3.11.5",
     "@types/debug": "^4.1.12",
@@ -57,7 +57,7 @@
     "debug": "^4.3.5",
     "eslint": "^9.4.0",
     "esno": "^4.7.0",
-    "lint-staged": "^15.2.5",
+    "lint-staged": "^15.2.7",
     "rimraf": "^5.0.7",
     "simple-git-hooks": "^2.11.1",
     "typescript": "^5.4.5",
